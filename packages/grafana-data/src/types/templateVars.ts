@@ -103,6 +103,7 @@ export interface QueryVariableModel extends VariableWithMultiSupport {
 export interface TextBoxVariableModel extends VariableWithOptions {
   type: 'textbox';
   originalQuery: string | null;
+  placeholder: string | null;
 }
 
 export interface ConstantVariableModel extends VariableWithOptions {

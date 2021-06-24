@@ -18,6 +18,7 @@ export interface Props extends VariablePickerProps<TextBoxVariableModel> {}
 export function TextBoxVariablePicker({ variable, onVariableChange, readOnly }: Props): ReactElement {
   const dispatch = useDispatch();
   const [updatedValue, setUpdatedValue] = useState(variable.current.value);
+  const placeholder = variable.placeholder;
   useEffect(() => {
     setUpdatedValue(variable.current.value);
   }, [variable]);
@@ -73,7 +74,7 @@ export function TextBoxVariablePicker({ variable, onVariableChange, readOnly }: 
       onBlur={onBlur}
       disabled={readOnly}
       onKeyDown={onKeyDown}
-      placeholder={t('variable.textbox.placeholder', 'Enter variable value')}
+      placeholder={placeholder ?? t('variable.textbox.placeholder', 'Enter variable value')}
       id={VARIABLE_PREFIX + variable.id}
     />
   );
