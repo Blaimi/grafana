@@ -45,6 +45,7 @@ interface State {
   transformationOptions: Array<SelectableValue<DataTransformerID>>;
   transformedData: DataFrame[];
   downloadForExcel: boolean;
+  delimiter: string;
 }
 
 export class InspectDataTab extends PureComponent<Props, State> {
@@ -58,7 +59,12 @@ export class InspectDataTab extends PureComponent<Props, State> {
       transformationOptions: buildTransformationOptions(),
       transformedData: props.data ?? [],
       downloadForExcel: false,
+      delimiter: ',',
     };
+    this.handleDelimiterChange = this.handleDelimiterChange.bind(this);
+  }
+  handleDelimiterChange(delimeter: string) {
+    this.setState({ delimiter: delimeter });
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -246,10 +252,17 @@ export class InspectDataTab extends PureComponent<Props, State> {
             onOptionsChange={onOptionsChange}
             onDataFrameChange={this.onDataFrameChange}
             toggleDownloadForExcel={this.toggleDownloadForExcel}
+            delimiter={this.state.delimiter}
+            handleDelimiterChange={this.handleDelimiterChange}
           />
           <Button
             variant="primary"
-            onClick={() => this.exportCsv(dataFrames[dataFrameIndex], { useExcelHeader: this.state.downloadForExcel })}
+            onClick={() =>
+              this.exportCsv(dataFrames[dataFrameIndex], {
+                delimiter: this.state.delimiter,
+                useExcelHeader: this.state.downloadForExcel,
+              })
+            }
             className={css`
               margin-bottom: 10px;
             `}
