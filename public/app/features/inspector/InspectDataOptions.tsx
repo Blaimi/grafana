@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { DataFrame, DataTransformerID, getFrameDisplayName, SelectableValue } from '@grafana/data';
 import { Field, HorizontalGroup, Select, Switch, VerticalGroup } from '@grafana/ui';
 import { getPanelInspectorStyles } from './styles';
@@ -19,6 +19,8 @@ interface Props {
   data?: DataFrame[];
   panel?: PanelModel;
   onOptionsChange?: (options: GetDataOptions) => void;
+  delimiter: string;
+  handleDelimiterChange: (delimeter: string) => void;
 }
 
 export const InspectDataOptions: FC<Props> = ({
@@ -33,6 +35,8 @@ export const InspectDataOptions: FC<Props> = ({
   onDataFrameChange,
   downloadForExcel,
   toggleDownloadForExcel,
+  delimiter,
+  handleDelimiterChange: handleDelimiterChange,
 }) => {
   const styles = getPanelInspectorStyles();
 
@@ -90,6 +94,10 @@ export const InspectDataOptions: FC<Props> = ({
     return parts.join(', ');
   }
 
+  const delimiterOptions = [
+    { label: ';', value: ';' },
+    { label: ',', value: ',' },
+  ];
   return (
     <div className={styles.dataDisplayOptions}>
       <QueryOperationRow
@@ -140,6 +148,16 @@ export const InspectDataOptions: FC<Props> = ({
               )}
               <Field label="Download for Excel" description="Adds header to CSV for use with Excel">
                 <Switch id="excel-toggle" value={downloadForExcel} onChange={toggleDownloadForExcel} />
+              </Field>
+              <Field label="Choose a delimeter" description="Lets you to choose delimeter for excel file">
+                <Select
+                  options={delimiterOptions}
+                  value={delimiter}
+                  allowCustomValue
+                  onChange={(e) => {
+                    handleDelimiterChange(e.value || ',');
+                  }}
+                ></Select>
               </Field>
             </HorizontalGroup>
           </VerticalGroup>
