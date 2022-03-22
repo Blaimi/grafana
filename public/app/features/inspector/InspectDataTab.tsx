@@ -48,6 +48,7 @@ interface State {
   transformationOptions: Array<SelectableValue<DataTransformerID>>;
   transformedData: DataFrame[];
   downloadForExcel: boolean;
+  delimiter: string;
 }
 
 export class InspectDataTab extends PureComponent<Props, State> {
@@ -61,7 +62,12 @@ export class InspectDataTab extends PureComponent<Props, State> {
       transformationOptions: buildTransformationOptions(),
       transformedData: props.data ?? [],
       downloadForExcel: false,
+      delimiter: ',',
     };
+    this.handleDelimiterChange = this.handleDelimiterChange.bind(this);
+  }
+  handleDelimiterChange(delimeter: string) {
+    this.setState({ delimiter: delimeter });
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -101,7 +107,12 @@ export class InspectDataTab extends PureComponent<Props, State> {
       reportInteraction('grafana_logs_download_clicked', { app: this.props.app, format: 'csv' });
     }
 
-    downloadDataFrameAsCsv(dataFrame, dataName, { useExcelHeader: this.state.downloadForExcel }, transformId);
+    const csvConfig = {
+      useExcelHeader: this.state.downloadForExcel,
+      delimiter: this.state.delimiter,
+    };
+
+    downloadDataFrameAsCsv(dataFrame, dataName, csvConfig, transformId);
   }
 
   onExportLogsAsTxt = () => {
@@ -281,6 +292,8 @@ export class InspectDataTab extends PureComponent<Props, State> {
             onOptionsChange={onOptionsChange}
             onDataFrameChange={this.onDataFrameChange}
             toggleDownloadForExcel={this.onToggleDownloadForExcel}
+            delimiter={this.state.delimiter}
+            handleDelimiterChange={this.handleDelimiterChange}
             actions={this.renderActions(dataFrames, hasLogs, hasTraces, hasServiceGraph)}
           />
         </div>

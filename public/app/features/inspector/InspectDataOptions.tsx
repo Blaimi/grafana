@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { DataFrame, DataTransformerID, getFrameDisplayName, SelectableValue } from '@grafana/data';
 import { Field, HorizontalGroup, Select, Switch, VerticalGroup, useStyles2 } from '@grafana/ui';
@@ -20,6 +20,8 @@ interface Props {
   data?: DataFrame[];
   hasTransformations?: boolean;
   onOptionsChange?: (options: GetDataOptions) => void;
+  delimiter: string;
+  handleDelimiterChange: (delimeter: string) => void;
   actions?: React.ReactNode;
 }
 
@@ -35,6 +37,8 @@ export const InspectDataOptions = ({
   onDataFrameChange,
   downloadForExcel,
   toggleDownloadForExcel,
+  delimiter,
+  handleDelimiterChange: handleDelimiterChange,
 }: Props) => {
   const styles = useStyles2(getPanelInspectorStyles2);
 
@@ -86,6 +90,11 @@ export const InspectDataOptions = ({
 
     return parts.join(', ');
   }
+
+  const delimiterOptions = [
+    { label: ';', value: ';' },
+    { label: ',', value: ',' },
+  ];
 
   return (
     <div className={styles.dataDisplayOptions}>
@@ -150,6 +159,22 @@ export const InspectDataOptions = ({
               >
                 <Switch id="excel-toggle" value={downloadForExcel} onChange={toggleDownloadForExcel} />
               </Field>
+              {hasTransformations && onOptionsChange && (
+                <Field label="Choose a delimeter" description="Lets you to choose delimeter for excel file">
+                  <Select
+                    options={delimiterOptions}
+                    value={delimiter}
+                    allowCustomValue={true}
+                    onChange={(e) => {
+                      handleDelimiterChange(e.value || ',');
+                    }}
+                    onCreateOption={(customValue) => {
+                      handleDelimiterChange(customValue);
+                      setDelimiterOptions([...delimiterOptions, { label: customValue, value: customValue }]);
+                    }}
+                  ></Select>
+                </Field>
+              )}
             </HorizontalGroup>
           </VerticalGroup>
         </div>
