@@ -10,7 +10,7 @@ import { QueryInspector } from 'app/features/inspector/QueryInspector';
 import { InspectStatsTab } from 'app/features/inspector/InspectStatsTab';
 import { InspectDataTab } from 'app/features/inspector/InspectDataTab';
 import { InspectErrorTab } from 'app/features/inspector/InspectErrorTab';
-
+import { config } from '@grafana/runtime';
 interface DispatchProps {
   width: number;
   exploreId: ExploreId;
@@ -47,7 +47,10 @@ export function ExploreQueryInspector(props: Props) {
       <InspectDataTab
         data={dataFrames}
         isLoading={loading}
-        options={{ withTransforms: false, withFieldConfig: false }}
+        options={{
+          withTransforms: (config as any).formattedData || false,
+          withFieldConfig: (config as any).applyPanelTransformation || false,
+        }}
         timeZone={timeZone}
       />
     ),

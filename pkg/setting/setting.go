@@ -146,6 +146,12 @@ var (
 	RudderstackSdkUrl       string
 	RudderstackConfigUrl    string
 
+	// exportcsv
+	ApplyPanelTransformation bool
+	FormattedData            bool
+	DownloadForExcel         bool
+	CsvDelimiter             string
+
 	// LDAP
 	LDAPEnabled           bool
 	LDAPConfigFile        string
@@ -930,6 +936,14 @@ func (cfg *Cfg) Load(args CommandLineArgs) error {
 	RudderstackConfigUrl = analytics.Key("rudderstack_config_url").String()
 	cfg.ReportingEnabled = analytics.Key("reporting_enabled").MustBool(true)
 	cfg.ReportingDistributor = analytics.Key("reporting_distributor").MustString("grafana-labs")
+
+	// export csv default values
+	exportcsv := iniFile.Section("csv_export_format")
+	ApplyPanelTransformation = exportcsv.Key("apply_panel_transformation").MustBool(true)
+	FormattedData = exportcsv.Key("formatted_data").MustBool(true)
+	DownloadForExcel = exportcsv.Key("download_for_excel").MustBool(false)
+	CsvDelimiter = exportcsv.Key("csv_delimiter").String()
+
 	if len(cfg.ReportingDistributor) >= 100 {
 		cfg.ReportingDistributor = cfg.ReportingDistributor[:100]
 	}

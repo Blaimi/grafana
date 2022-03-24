@@ -18,7 +18,7 @@ import { Button, Spinner, Table } from '@grafana/ui';
 import { selectors } from '@grafana/e2e-selectors';
 import { InspectDataOptions } from './InspectDataOptions';
 import { getPanelInspectorStyles } from './styles';
-import { config } from 'app/core/config';
+import { config } from '@grafana/runtime';
 import { saveAs } from 'file-saver';
 import { css } from '@emotion/css';
 import { GetDataOptions } from 'app/features/query/state/PanelQueryRunner';
@@ -27,7 +27,6 @@ import { dataFrameToLogsModel } from 'app/core/logs_model';
 import { transformToJaeger } from 'app/plugins/datasource/jaeger/responseTransform';
 import { transformToZipkin } from 'app/plugins/datasource/zipkin/utils/transforms';
 import { transformToOTLP } from 'app/plugins/datasource/tempo/resultTransformer';
-
 interface Props {
   isLoading: boolean;
   options: GetDataOptions;
@@ -58,8 +57,8 @@ export class InspectDataTab extends PureComponent<Props, State> {
       transformId: DataTransformerID.noop,
       transformationOptions: buildTransformationOptions(),
       transformedData: props.data ?? [],
-      downloadForExcel: false,
-      delimiter: ',',
+      downloadForExcel: (config as any).downloadForExcel || false,
+      delimiter: (config as any).csvDelimiter || ',',
     };
     this.handleDelimiterChange = this.handleDelimiterChange.bind(this);
   }
@@ -257,12 +256,12 @@ export class InspectDataTab extends PureComponent<Props, State> {
           />
           <Button
             variant="primary"
-            onClick={() =>
+            onClick={() => {
               this.exportCsv(dataFrames[dataFrameIndex], {
                 delimiter: this.state.delimiter,
                 useExcelHeader: this.state.downloadForExcel,
-              })
-            }
+              });
+            }}
             className={css`
               margin-bottom: 10px;
             `}

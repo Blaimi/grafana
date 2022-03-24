@@ -6,7 +6,6 @@ import { GetDataOptions } from 'app/features/query/state/PanelQueryRunner';
 import { QueryOperationRow } from 'app/core/components/QueryOperationRow/QueryOperationRow';
 import { PanelModel } from 'app/features/dashboard/state';
 import { DetailText } from 'app/features/inspector/DetailText';
-
 interface Props {
   options: GetDataOptions;
   dataFrames: DataFrame[];
@@ -38,6 +37,10 @@ export const InspectDataOptions: FC<Props> = ({
   delimiter,
   handleDelimiterChange: handleDelimiterChange,
 }) => {
+  const [delimiterOptions, setDelimiterOptions] = useState([
+    { label: ';', value: ';' },
+    { label: ',', value: ',' },
+  ]);
   const styles = getPanelInspectorStyles();
 
   const panelTransformations = panel?.getTransformations();
@@ -94,10 +97,6 @@ export const InspectDataOptions: FC<Props> = ({
     return parts.join(', ');
   }
 
-  const delimiterOptions = [
-    { label: ';', value: ';' },
-    { label: ',', value: ',' },
-  ];
   return (
     <div className={styles.dataDisplayOptions}>
       <QueryOperationRow
@@ -149,16 +148,22 @@ export const InspectDataOptions: FC<Props> = ({
               <Field label="Download for Excel" description="Adds header to CSV for use with Excel">
                 <Switch id="excel-toggle" value={downloadForExcel} onChange={toggleDownloadForExcel} />
               </Field>
-              <Field label="Choose a delimeter" description="Lets you to choose delimeter for excel file">
-                <Select
-                  options={delimiterOptions}
-                  value={delimiter}
-                  allowCustomValue
-                  onChange={(e) => {
-                    handleDelimiterChange(e.value || ',');
-                  }}
-                ></Select>
-              </Field>
+              {showPanelTransformationsOption && onOptionsChange && (
+                <Field label="Choose a delimeter" description="Lets you to choose delimeter for csv file">
+                  <Select
+                    options={delimiterOptions}
+                    value={delimiter}
+                    allowCustomValue={true}
+                    onChange={(e) => {
+                      handleDelimiterChange(e.value || ',');
+                    }}
+                    onCreateOption={(customValue) => {
+                      handleDelimiterChange(customValue);
+                      setDelimiterOptions([...delimiterOptions, { label: customValue, value: customValue }]);
+                    }}
+                  ></Select>
+                </Field>
+              )}
             </HorizontalGroup>
           </VerticalGroup>
         </div>

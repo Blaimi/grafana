@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
 import { PanelPlugin } from '@grafana/data';
-import { locationService } from '@grafana/runtime';
+import { locationService, config } from '@grafana/runtime';
 import { StoreState } from 'app/types';
 import { GetDataOptions } from '../../../query/state/PanelQueryRunner';
 import { usePanelLatestData } from '../PanelEditor/usePanelLatestData';
@@ -25,8 +25,8 @@ export type Props = OwnProps & ConnectedProps;
 
 const PanelInspectorUnconnected: React.FC<Props> = ({ panel, dashboard, plugin }) => {
   const [dataOptions, setDataOptions] = useState<GetDataOptions>({
-    withTransforms: false,
-    withFieldConfig: true,
+    withTransforms: (config as any).formattedData || false,
+    withFieldConfig: (config as any).applyPanelTransformation || true,
   });
 
   const location = useLocation();

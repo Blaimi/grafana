@@ -3,6 +3,7 @@ import { DataFrame, FieldType } from '@grafana/data';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { InspectDataTab } from './InspectDataTab';
+import { config } from '@grafana/runtime';
 
 // the mock below gets rid of this warning from recompose:
 // Warning: React.createFactory() is deprecated and will be removed in a future major release. Consider using JSX or use React.createElement() directly instead.
@@ -12,8 +13,8 @@ const createProps = (propsOverride?: Partial<ComponentProps<typeof InspectDataTa
   const defaultProps = {
     isLoading: false,
     options: {
-      withTransforms: false,
-      withFieldConfig: false,
+      withTransforms: (config as any).formattedData,
+      withFieldConfig: (config as any).applyPanelTransformation,
     },
     data: [
       {
@@ -59,6 +60,7 @@ describe('InspectDataTab', () => {
     });
     it('should show available dataFrame options', () => {
       render(<InspectDataTab {...createProps()} />);
+      console.log(createProps());
       const dataOptions = screen.getByText(/Data options/i);
       userEvent.click(dataOptions);
       const dataFrameInput = screen.getByRole('combobox', { name: /Select dataframe/i });
