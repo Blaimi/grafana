@@ -90,12 +90,7 @@ export const plugin = new PanelPlugin<PanelOptions, TableFieldOptions>(TablePane
             );
           },
         })
-        .addBooleanSwitch({
-          path: 'filterable',
-          name: 'Column filter',
-          description: 'Enables/disables field filters in table',
-          defaultValue: defaultPanelFieldConfig.filterable,
-        })
+
         .addBooleanSwitch({
           path: 'hidden',
           name: 'Hide in table',

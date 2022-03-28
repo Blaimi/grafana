@@ -161,7 +161,7 @@ export class PanelModel implements DataConfigSource, IPanelModel {
   description?: string;
   links?: DataLink[];
   declare transparent: boolean;
-
+  declare exportcsv: boolean;
   libraryPanel?: { uid: undefined; name: string } | PanelModelLibraryPanel;
 
   // non persisted

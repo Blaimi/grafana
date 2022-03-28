@@ -22,6 +22,12 @@ export const PanelHeaderMenuTrigger: FC<Props> = ({ children, ...divProps }) => 
       event.stopPropagation();
 
       setPanelMenuOpen(!panelMenuOpen);
+      const paneltitle = event.currentTarget.getElementsByClassName('panel-title')[0];
+      const button = paneltitle.getElementsByTagName('button')[0];
+      if (button) {
+        const isClicked = isButtonClicked(button, event.clientX, event.clientY);
+        setPanelMenuOpen(!isClicked);
+      }
     },
     [clickCoordinates, panelMenuOpen, setPanelMenuOpen]
   );
@@ -48,4 +54,16 @@ function eventToClickCoordinates(event: MouseEvent<HTMLDivElement>): CartesianCo
     x: Math.floor(event.clientX),
     y: Math.floor(event.clientY),
   };
+}
+
+function isButtonClicked(button: any, clientX: any, clientY: any): boolean {
+  if (
+    clientX > button.getBoundingClientRect().left + window.scrollX &&
+    clientX < button.getBoundingClientRect().right + window.scrollX &&
+    clientY > button.getBoundingClientRect().top + window.scrollY &&
+    clientY < button.getBoundingClientRect().bottom + window.scrollY
+  ) {
+    return true;
+  }
+  return false;
 }
