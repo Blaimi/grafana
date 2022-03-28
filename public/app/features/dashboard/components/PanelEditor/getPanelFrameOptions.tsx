@@ -61,6 +61,21 @@ export function getPanelFrameCategory(props: OptionPaneRenderProps): OptionsPane
         },
       })
     )
+    .addItem(
+      new OptionsPaneItemDescriptor({
+        title: 'Export default Csv',
+        render: function renderTransparent() {
+          return (
+            <Switch
+              value={panel.exportcsv}
+              id="export default csv"
+              onChange={(e) => onPanelConfigChange('exportcsv', e.currentTarget.checked)}
+            />
+          );
+        },
+      })
+    )
+
     .addCategory(
       new OptionsPaneCategoryDescriptor({
         title: 'Panel links',
