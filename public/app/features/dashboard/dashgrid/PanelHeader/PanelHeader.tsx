@@ -14,6 +14,7 @@ import {
 } from '@grafana/data';
 import { Icon, useStyles2, Button } from '@grafana/ui';
 import { selectors } from '@grafana/e2e-selectors';
+import { saveAs } from 'file-saver';
 
 import PanelHeaderCorner from './PanelHeaderCorner';
 import { DashboardModel } from 'app/features/dashboard/state/DashboardModel';
