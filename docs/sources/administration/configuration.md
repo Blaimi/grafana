@@ -1883,3 +1883,24 @@ default_baselayer_config = `{
 ### enable_custom_baselayers
 
 Set this to `true` to disable loading other custom base maps and hide them in the Grafana UI. Default is `false`.
+
+## [csv_export_format]
+
+This section configures default csv export settings. You can decide your default default csv export settings like csv delimiter, apply panel transformation, formatted data and download for excel
+
+### csv_delimeter
+
+Normally default csv delimeter by Grafana is ",".For some local
+excels(For example German), excel does not open the csv document correctly, since for German excel, the delimiter is ';'. You can set your default delimeter here, but be careful about escaping special characters in .ini files
+
+### csv_apply_panel_transformation
+
+Decides if the table data is displayed with transformations defined in the panel Transform tab.
+
+### csv_formatted_data
+
+Decides if the table data is formatted with options defined in the Field and Override tabs.
+
+### download_for_excel
+
+Decides if a header to CSV for use with Excel.
