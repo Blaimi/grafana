@@ -147,10 +147,10 @@ var (
 	RudderstackConfigUrl    string
 
 	// exportcsv
-	ApplyPanelTransformation bool
-	FormattedData            bool
-	DownloadForExcel         bool
-	CsvDelimiter             string
+	CsvApplyPanelTransformation bool
+	CsvFormattedData            bool
+	DownloadForExcel            bool
+	CsvDelimiter                string
 
 	// LDAP
 	LDAPEnabled           bool
@@ -939,8 +939,8 @@ func (cfg *Cfg) Load(args CommandLineArgs) error {
 
 	// export csv default values
 	exportcsv := iniFile.Section("csv_export_format")
-	ApplyPanelTransformation = exportcsv.Key("apply_panel_transformation").MustBool(true)
-	FormattedData = exportcsv.Key("formatted_data").MustBool(true)
+	CsvApplyPanelTransformation = exportcsv.Key("csv_apply_panel_transformation").MustBool(true)
+	CsvFormattedData = exportcsv.Key("csv_formatted_data").MustBool(true)
 	DownloadForExcel = exportcsv.Key("download_for_excel").MustBool(false)
 	CsvDelimiter = exportcsv.Key("csv_delimiter").String()
 

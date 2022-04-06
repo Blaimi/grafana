@@ -25,8 +25,9 @@ export type Props = OwnProps & ConnectedProps;
 
 const PanelInspectorUnconnected: React.FC<Props> = ({ panel, dashboard, plugin }) => {
   const [dataOptions, setDataOptions] = useState<GetDataOptions>({
-    withTransforms: (config as any).formattedData || false,
-    withFieldConfig: (config as any).applyPanelTransformation || true,
+    withTransforms:
+      (config as any).csvApplyPanelTransformation === undefined ? false : (config as any).csvApplyPanelTransformation,
+    withFieldConfig: (config as any).csvFormattedData === undefined ? true : (config as any).csvFormattedData,
   });
 
   const location = useLocation();
