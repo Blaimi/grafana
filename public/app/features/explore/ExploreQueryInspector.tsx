@@ -11,7 +11,6 @@ import { InspectStatsTab } from 'app/features/inspector/InspectStatsTab';
 import { InspectDataTab } from 'app/features/inspector/InspectDataTab';
 import { InspectErrorTab } from 'app/features/inspector/InspectErrorTab';
 import { config } from '@grafana/runtime';
-
 interface DispatchProps {
   width: number;
   exploreId: ExploreId;
