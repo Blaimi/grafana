@@ -77,6 +77,7 @@ export function getColumns(
     };
 
     const Cell = getCellComponent(fieldTableOptions.displayMode, field);
+
     columns.push({
       Cell,
       id: fieldIndex.toString(),
