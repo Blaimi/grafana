@@ -26,6 +26,7 @@ type Preferences struct {
 	Created         time.Time
 	Updated         time.Time
 	JsonData        *PreferencesJsonData
+	Test            string
 }
 
 // The following needed for to implement the xorm/database ORM Conversion interface do the
@@ -83,6 +84,7 @@ type SavePreferencesCommand struct {
 	WeekStart       string            `json:"weekStart,omitempty"`
 	Theme           string            `json:"theme,omitempty"`
 	Navbar          *NavbarPreference `json:"navbar,omitempty"`
+	Test            string            `json:"test,omitempty"`
 }
 
 type PatchPreferencesCommand struct {
@@ -95,4 +97,5 @@ type PatchPreferencesCommand struct {
 	WeekStart       *string           `json:"weekStart,omitempty"`
 	Theme           *string           `json:"theme,omitempty"`
 	Navbar          *NavbarPreference `json:"navbar,omitempty"`
+	Test            *string           `json:"test,omitempty"`
 }

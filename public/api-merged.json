@@ -13701,6 +13701,10 @@
         "weekStart": {
           "type": "string",
           "x-go-name": "WeekStart"
+        },
+        "test": {
+          "type": "string",
+          "x-go-name": "WeekStart"
         }
       },
       "x-go-package": "github.com/grafana/grafana/pkg/api/dtos"
@@ -14161,6 +14165,10 @@
         "weekStart": {
           "type": "string",
           "x-go-name": "WeekStart"
+        },
+        "test": {
+          "type": "string",
+          "x-go-name": "Test"
         }
       },
       "x-go-package": "github.com/grafana/grafana/pkg/api/dtos"
@@ -16214,6 +16222,10 @@
         "weekStart": {
           "type": "string",
           "x-go-name": "WeekStart"
+        },
+        "test": {
+          "type": "string",
+          "x-go-name": "Test"
         }
       },
       "x-go-package": "github.com/grafana/grafana/pkg/api/dtos"

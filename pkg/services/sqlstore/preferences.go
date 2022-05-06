@@ -48,6 +48,7 @@ func (ss *SQLStore) GetPreferencesWithDefaults(ctx context.Context, query *model
 			WeekStart:       ss.Cfg.DateFormats.DefaultWeekStart,
 			HomeDashboardId: 0,
 			JsonData:        &models.PreferencesJsonData{},
+			Test:            "this is a test",
 		}
 
 		for _, p := range prefs {
@@ -112,6 +113,7 @@ func (ss *SQLStore) SavePreferences(ctx context.Context, cmd *models.SavePrefere
 				Created:         time.Now(),
 				Updated:         time.Now(),
 				JsonData:        &models.PreferencesJsonData{},
+				Test:            "this is a test",
 			}
 
 			if cmd.Navbar != nil {

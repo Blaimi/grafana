@@ -8,6 +8,7 @@ type Prefs struct {
 	Timezone        string                  `json:"timezone"`
 	WeekStart       string                  `json:"weekStart"`
 	Navbar          models.NavbarPreference `json:"navbar,omitempty"`
+	Test            string                  `json:"test,omitempty"`
 }
 
 // swagger:model
@@ -21,6 +22,7 @@ type UpdatePrefsCmd struct {
 	Timezone  string                   `json:"timezone"`
 	WeekStart string                   `json:"weekStart"`
 	Navbar    *models.NavbarPreference `json:"navbar,omitempty"`
+	Test      string                   `json:"test"`
 }
 
 // swagger:model
@@ -34,4 +36,5 @@ type PatchPrefsCmd struct {
 	Timezone  *string                  `json:"timezone,omitempty"`
 	WeekStart *string                  `json:"weekStart,omitempty"`
 	Navbar    *models.NavbarPreference `json:"navbar,omitempty"`
+	Test      *string                  `json:"test,omitempty"`
 }

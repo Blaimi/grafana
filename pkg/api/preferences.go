@@ -49,6 +49,7 @@ func (hs *HTTPServer) getPreferencesFor(ctx context.Context, orgID, userID, team
 		HomeDashboardID: prefsQuery.Result.HomeDashboardId,
 		Timezone:        prefsQuery.Result.Timezone,
 		WeekStart:       prefsQuery.Result.WeekStart,
+		Test:            prefsQuery.Result.Test,
 	}
 
 	if prefsQuery.Result.JsonData != nil {
@@ -79,6 +80,7 @@ func (hs *HTTPServer) updatePreferencesFor(ctx context.Context, orgID, userID, t
 		Timezone:        dtoCmd.Timezone,
 		WeekStart:       dtoCmd.WeekStart,
 		HomeDashboardId: dtoCmd.HomeDashboardID,
+		Test:            dtoCmd.Test,
 	}
 
 	if err := hs.SQLStore.SavePreferences(ctx, &saveCmd); err != nil {
@@ -110,6 +112,7 @@ func (hs *HTTPServer) patchPreferencesFor(ctx context.Context, orgID, userID, te
 		WeekStart:       dtoCmd.WeekStart,
 		HomeDashboardId: dtoCmd.HomeDashboardID,
 		Navbar:          dtoCmd.Navbar,
+		Test:            dtoCmd.Test,
 	}
 
 	if err := hs.SQLStore.PatchPreferences(ctx, &patchCmd); err != nil {

@@ -5,4 +5,5 @@ export interface UserPreferencesDTO {
   weekStart: string;
   homeDashboardId: number;
   theme: string;
+  test: string;
 }
