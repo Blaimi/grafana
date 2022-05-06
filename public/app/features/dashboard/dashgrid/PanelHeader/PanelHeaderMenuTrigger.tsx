@@ -21,7 +21,8 @@ export const PanelHeaderMenuTrigger: FC<Props> = ({ children, ...divProps }) => 
       }
       event.stopPropagation();
       setPanelMenuOpen(!panelMenuOpen);
-      const button = document.getElementById('export-csv-button');
+      const paneltitle = document.getElementsByClassName('panel-title')[0];
+      const button = paneltitle.getElementsByTagName('button')[0];
       if (button) {
         const isClicked = isButtonClicked(button, event.clientX, event.clientY);
         setPanelMenuOpen(!isClicked);

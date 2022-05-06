@@ -130,7 +130,6 @@ export const PanelHeader: FC<Props> = ({ panel, error, isViewing, isEditing, dat
                       font-size: 10px;
                       margin-left: 20px;
                     `}
-                    id="export-csv-button"
                   >
                     Download CSV
                   </Button>
