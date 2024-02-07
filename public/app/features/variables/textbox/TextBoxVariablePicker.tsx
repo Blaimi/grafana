@@ -6,7 +6,7 @@ import { t } from 'app/core/internationalization';
 import { useDispatch } from 'app/types';
 
 import { variableAdapters } from '../adapters';
-import { VARIABLE_PREFIX } from '../constants';
+import { ALL_VARIABLE_VALUE, VARIABLE_PREFIX } from '../constants';
 import { VariablePickerProps } from '../pickers/types';
 import { toKeyedAction } from '../state/keyedVariablesReducer';
 import { changeVariableProp } from '../state/sharedReducer';
@@ -33,11 +33,17 @@ export function TextBoxVariablePicker({ variable, onVariableChange, readOnly }: 
       return;
     }
 
+    const data = { propName: 'query', propValue: updatedValue };
+
+    if (updatedValue === '') {
+      data.propValue = ALL_VARIABLE_VALUE;
+    }
+
     dispatch(
       toKeyedAction(
         variable.rootStateKey,
         changeVariableProp(
-          toVariablePayload({ id: variable.id, type: variable.type }, { propName: 'query', propValue: updatedValue })
+          toVariablePayload({ id: variable.id, type: variable.type }, data)
         )
       )
     );
@@ -52,6 +58,16 @@ export function TextBoxVariablePicker({ variable, onVariableChange, readOnly }: 
 
     variableAdapters.get(variable.type).updateOptions(variable);
   }, [variable, updatedValue, dispatch, onVariableChange]);
+
+  const checkForOnEmptyValue = () => {
+    if (updatedValue !== '' && updatedValue !== ALL_VARIABLE_VALUE) {
+      return updatedValue;
+    } else {
+      return '';
+    }
+  };
+
+  const valueToDisplay = checkForOnEmptyValue();
 
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => setUpdatedValue(event.target.value),
@@ -69,7 +85,7 @@ export function TextBoxVariablePicker({ variable, onVariableChange, readOnly }: 
   return (
     <Input
       type="text"
-      value={updatedValue}
+      value={valueToDisplay ?? ''}
       onChange={onChange}
       onBlur={onBlur}
       disabled={readOnly}

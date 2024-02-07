@@ -168,6 +168,7 @@ export const Pages = {
             textBoxOptionsQueryInput: 'Variable editor Form TextBox Query field',
             textBoxOptionsQueryInputV2: 'data-testid Variable editor Form TextBox Query field',
             textBoxOptionsPlaceholder: 'data-testid Variable editor Form Placeholder field',
+            textBoxOptionsEmpty: 'data-testid Variable editor Form AllValue field',
           },
           CustomVariable: {
             customValueInput: 'data-testid custom-variable-input',

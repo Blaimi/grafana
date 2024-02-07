@@ -9,12 +9,23 @@ import { TextBoxVariableModel } from '../types';
 
 export interface Props extends VariableEditorProps<TextBoxVariableModel> {}
 
-export function TextBoxVariableEditor({ onPropChange, variable: { query, placeholder } }: Props): ReactElement {
+export function TextBoxVariableEditor({
+  onPropChange,
+  variable: { query, allValue, placeholder },
+}: Props): ReactElement {
   const updateVariable = useCallback(
     (event: FormEvent<HTMLInputElement>, updateOptions: boolean) => {
       event.preventDefault();
       onPropChange({ propName: 'originalQuery', propValue: event.currentTarget.value, updateOptions: false });
       onPropChange({ propName: 'query', propValue: event.currentTarget.value, updateOptions });
+    },
+    [onPropChange]
+  );
+
+  const updateAllValueVariable = useCallback(
+    (event: FormEvent<HTMLInputElement>, updateOptions: boolean) => {
+      event.preventDefault();
+      onPropChange({ propName: 'allValue', propValue: event.currentTarget.value, updateOptions });
     },
     [onPropChange]
   );
@@ -29,8 +40,8 @@ export function TextBoxVariableEditor({ onPropChange, variable: { query, placeho
 
   const onChange = useCallback((e: FormEvent<HTMLInputElement>) => updateVariable(e, false), [updateVariable]);
   const onBlur = useCallback((e: FormEvent<HTMLInputElement>) => updateVariable(e, true), [updateVariable]);
-  const onPlaceholderChange = useCallback((e: FormEvent<HTMLInputElement>) => updatePlaceholderVariable(e, false), [updatePlaceholderVariable]);
-  const onPlaceholderBlur = useCallback((e: FormEvent<HTMLInputElement>) => updatePlaceholderVariable(e, true), [updatePlaceholderVariable]);
+  const onAllValueChange = useCallback((e: FormEvent<HTMLInputElement>) => updateAllValueVariable(e, false), [updateAllValueVariable]);
+  const onAllValueBlur = useCallback((e: FormEvent<HTMLInputElement>) => updateAllValueVariable(e, true), [updateAllValueVariable]);
   const onPlaceholderChange = useCallback(
     (e: FormEvent<HTMLInputElement>) => updatePlaceholderVariable(e, false),
     [updatePlaceholderVariable],
@@ -51,6 +62,15 @@ export function TextBoxVariableEditor({ onPropChange, variable: { query, placeho
         onBlur={onBlur}
         width={30}
         testId={selectors.pages.Dashboard.Settings.Variables.Edit.TextBoxVariable.textBoxOptionsQueryInputV2}
+      />
+      <VariableTextField
+        value={allValue}
+        name="Empty value"
+        placeholder="empty value, if cleared"
+        onChange={onAllValueChange}
+        onBlur={onAllValueBlur}
+        width={30}
+        testId={selectors.pages.Dashboard.Settings.Variables.Edit.TextBoxVariable.textBoxOptionsAllValue}
       />
       <VariableTextField
         value={placeholder}
