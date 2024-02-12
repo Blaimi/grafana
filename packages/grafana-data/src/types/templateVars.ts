@@ -16,6 +16,7 @@ export type TypedVariableModel =
   | ConstantVariableModel
   | DataSourceVariableModel
   | IntervalVariableModel
+  | DateTimeVariableModel
   | TextBoxVariableModel
   | CustomVariableModel
   | UserVariableModel
@@ -77,6 +78,12 @@ export interface IntervalVariableModel extends VariableWithOptions {
   auto_min: string;
   auto_count: number;
   refresh: VariableRefresh;
+}
+
+export interface DateTimeVariableModel extends VariableWithOptions {
+  type: 'datetime';
+  allValue?: string | null;
+  returnValue?: 'start' | 'end';
 }
 
 export interface CustomVariableModel extends VariableWithMultiSupport {

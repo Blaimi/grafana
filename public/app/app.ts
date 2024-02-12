@@ -91,6 +91,7 @@ import { createCustomVariableAdapter } from './features/variables/custom/adapter
 import { createDataSourceVariableAdapter } from './features/variables/datasource/adapter';
 import { getVariablesUrlParams } from './features/variables/getAllVariableValuesForUrl';
 import { createIntervalVariableAdapter } from './features/variables/interval/adapter';
+import { createDateTimeVariableAdapter } from './features/variables/datetime/adapter';
 import { setVariableQueryRunner, VariableQueryRunner } from './features/variables/query/VariableQueryRunner';
 import { createQueryVariableAdapter } from './features/variables/query/adapter';
 import { createSystemVariableAdapter } from './features/variables/system/adapter';
@@ -159,6 +160,7 @@ export class GrafanaApp {
         createConstantVariableAdapter(),
         createDataSourceVariableAdapter(),
         createIntervalVariableAdapter(),
+        createDateTimeVariableAdapter(),
         createAdHocVariableAdapter(),
         createSystemVariableAdapter(),
       ]);

@@ -26,6 +26,8 @@ export {
   /** @deprecated Import from @grafana/data instead */
   IntervalVariableModel,
   /** @deprecated Import from @grafana/data instead */
+  DateTimeVariableModel,
+  /** @deprecated Import from @grafana/data instead */
   CustomVariableModel,
   /** @deprecated Import from @grafana/data instead */
   DataSourceVariableModel,
