@@ -5,13 +5,14 @@ import React, { ComponentProps } from 'react';
 import { DataFrame, FieldType } from '@grafana/data';
 
 import { InspectDataTab } from './InspectDataTab';
+import { config } from '@grafana/runtime';
 
 const createProps = (propsOverride?: Partial<ComponentProps<typeof InspectDataTab>>) => {
   const defaultProps = {
     isLoading: false,
     options: {
-      withTransforms: false,
-      withFieldConfig: false,
+      withTransforms: (config as any).CsvFormattedData,
+      withFieldConfig: (config as any).CsvApplyPanelTransformation,
     },
     data: [
       {

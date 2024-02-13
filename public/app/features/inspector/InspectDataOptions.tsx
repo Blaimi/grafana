@@ -42,6 +42,11 @@ export const InspectDataOptions = ({
 }: Props) => {
   const styles = useStyles2(getPanelInspectorStyles2);
 
+  const [delimiterOptions, setDelimiterOptions] = useState([
+    { label: ';', value: ';' },
+    { label: ',', value: ',' },
+  ]);
+
   let dataSelect = dataFrames;
   if (selectedDataFrame === DataTransformerID.joinByField) {
     dataSelect = data!;
@@ -90,11 +95,6 @@ export const InspectDataOptions = ({
 
     return parts.join(', ');
   }
-
-  const delimiterOptions = [
-    { label: ';', value: ';' },
-    { label: ',', value: ',' },
-  ];
 
   return (
     <div className={styles.dataDisplayOptions}>
@@ -159,7 +159,7 @@ export const InspectDataOptions = ({
               >
                 <Switch id="excel-toggle" value={downloadForExcel} onChange={toggleDownloadForExcel} />
               </Field>
-              {hasTransformations && onOptionsChange && (
+              {onOptionsChange && (
                 <Field label="Choose a delimeter" description="Lets you to choose delimeter for excel file">
                   <Select
                     options={delimiterOptions}

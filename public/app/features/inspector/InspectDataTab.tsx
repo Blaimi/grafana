@@ -61,8 +61,8 @@ export class InspectDataTab extends PureComponent<Props, State> {
       transformId: DataTransformerID.noop,
       transformationOptions: buildTransformationOptions(),
       transformedData: props.data ?? [],
-      downloadForExcel: false,
-      delimiter: ',',
+      downloadForExcel: (config as any).DownloadForExcel || false,
+      delimiter: (config as any).CsvDelimiter || ',',
     };
     this.handleDelimiterChange = this.handleDelimiterChange.bind(this);
   }

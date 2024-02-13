@@ -15,6 +15,8 @@ import { StoreState, ExploreItemState } from 'app/types';
 
 import { runQueries } from './state/query';
 
+import { config } from '@grafana/runtime';
+
 interface DispatchProps {
   width: number;
   exploreId: string;
@@ -59,7 +61,13 @@ export function ExploreQueryInspector(props: Props) {
         data={dataFrames}
         dataName={'Explore'}
         isLoading={queryResponse.state === LoadingState.Loading}
-        options={{ withTransforms: false, withFieldConfig: false }}
+        options={{
+          withTransforms:
+            (config as any).CsvApplyPanelTransformation === undefined
+              ? false
+              : (config as any).CsvApplyPanelTransformation,
+          withFieldConfig: (config as any).CsvFormattedData === undefined ? true : (config as any).CsvFormattedData,
+        }}
         timeZone={timeZone}
         app={CoreApp.Explore}
       />

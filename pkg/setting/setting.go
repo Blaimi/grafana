@@ -457,6 +457,12 @@ type Cfg struct {
 	GenericOAuthAuthEnabled     bool
 	GenericOAuthSkipOrgRoleSync bool
 
+	// exportcsv
+	CsvApplyPanelTransformation bool
+	CsvFormattedData            bool
+	DownloadForExcel            bool
+	CsvDelimiter                string
+
 	// LDAP
 	LDAPAuthEnabled       bool
 	LDAPSkipOrgRoleSync   bool
@@ -1141,6 +1147,13 @@ func (cfg *Cfg) Load(args CommandLineArgs) error {
 
 	cfg.ReportingEnabled = analytics.Key("reporting_enabled").MustBool(true)
 	cfg.ReportingDistributor = analytics.Key("reporting_distributor").MustString("grafana-labs")
+
+	// export csv default values
+	exportcsv := iniFile.Section("csv_export_format")
+	cfg.CsvApplyPanelTransformation = exportcsv.Key("csv_apply_panel_transformation").MustBool(true)
+	cfg.CsvFormattedData = exportcsv.Key("csv_formatted_data").MustBool(true)
+	cfg.DownloadForExcel = exportcsv.Key("download_for_excel").MustBool(false)
+	cfg.CsvDelimiter = exportcsv.Key("csv_delimiter").String()
 
 	if len(cfg.ReportingDistributor) >= 100 {
 		cfg.ReportingDistributor = cfg.ReportingDistributor[:100]

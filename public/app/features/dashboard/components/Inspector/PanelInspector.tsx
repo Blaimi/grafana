@@ -3,7 +3,7 @@ import { connect, MapStateToProps } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { PanelPlugin } from '@grafana/data';
-import { locationService } from '@grafana/runtime';
+import { locationService, config } from '@grafana/runtime';
 import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
 import { InspectTab } from 'app/features/inspector/types';
 import { getPanelStateForModel } from 'app/features/panel/state/selectors';
@@ -31,8 +31,9 @@ const PanelInspectorUnconnected = ({ panel, dashboard, plugin }: Props) => {
   const location = useLocation();
   const defaultTab = new URLSearchParams(location.search).get('inspectTab') as InspectTab;
   const [dataOptions, setDataOptions] = useState<GetDataOptions>({
-    withTransforms: defaultTab === InspectTab.Error,
-    withFieldConfig: true,
+    withTransforms:
+      (config as any).CsvApplyPanelTransformation === undefined ? defaultTab === InspectTab.Error : (config as any).CsvApplyPanelTransformation,
+    withFieldConfig: (config as any).CsvFormattedData === undefined ? true : (config as any).CsvFormattedData,
   });
 
   const { data, isLoading, hasError } = usePanelLatestData(panel, dataOptions, false);

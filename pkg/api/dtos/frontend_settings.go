@@ -166,6 +166,11 @@ type FrontendSettingsDTO struct {
 	RudderstackConfigUrl       string `json:"rudderstackConfigUrl"`
 	RudderstackIntegrationsUrl string `json:"rudderstackIntegrationsUrl"`
 
+	CsvApplyPanelTransformation bool   `json: "csvApplyPanelTransformation"`
+	CsvFormattedData            bool   `json: "csvFormattedData"`
+	DownloadForExcel            bool   `json: "downloadForExcel"`
+	CsvDelimiter                string `json: "csvDelimiter"`
+
 	FeedbackLinksEnabled                bool     `json:"feedbackLinksEnabled"`
 	ApplicationInsightsConnectionString string   `json:"applicationInsightsConnectionString"`
 	ApplicationInsightsEndpointUrl      string   `json:"applicationInsightsEndpointUrl"`
