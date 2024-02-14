@@ -1,4 +1,5 @@
 import { isString as _isString } from 'lodash';
+import { firstValueFrom } from 'rxjs';
 
 import { TimeRange, AppEvents, rangeUtil, dateMath, PanelModel as IPanelModel, dateTimeAsMoment } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
@@ -15,6 +16,10 @@ import { cleanUpPanelState } from 'app/features/panel/state/actions';
 import { dispatch } from 'app/store/store';
 
 import { ShowConfirmModalEvent, ShowModalReactEvent } from '../../../types/events';
+import {downloadDataFrameAsCsv} from "../../inspector/utils/download";
+import { CSVConfig, DataFrame, PanelData, transformDataFrame, DataTransformerID, SelectableValue } from "@grafana/data";
+import {t} from "../../../core/internationalization";
+import {GetDataOptions} from "../../query/state/PanelQueryRunner";
 
 export const removePanel = (dashboard: DashboardModel, panel: PanelModel, ask: boolean) => {
   // confirm deletion
@@ -68,6 +73,22 @@ export const sharePanel = (dashboard: DashboardModel, panel: PanelModel) => {
     })
   );
 };
+
+export async function csvExportPanel(panel: PanelModel) {
+  const transformations = panel.getTransformations()
+  const csvConfig: CSVConfig = {
+    useExcelHeader: (config as any).DownloadForExcel || false,
+    delimiter: (config as any).CsvDelimiter || ',',
+  };
+
+  const getDataOptions: GetDataOptions = {
+    withTransforms: (config as any).CsvApplyPanelTransformation || false,
+    withFieldConfig: true,
+  }
+
+  const data = await firstValueFrom(panel.getQueryRunner().getData(getDataOptions))
+  downloadDataFrameAsCsv(data.series[0], panel.title, csvConfig)
+}
 
 export const addLibraryPanel = (dashboard: DashboardModel, panel: PanelModel) => {
   appEvents.publish(

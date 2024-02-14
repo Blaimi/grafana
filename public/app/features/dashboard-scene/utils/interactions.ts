@@ -13,6 +13,7 @@ export const DashboardInteractions = {
   },
   panelMenuItemClicked: (
     item:
+      | 'exportcsv'
       | 'view'
       | 'edit'
       | 'share'
