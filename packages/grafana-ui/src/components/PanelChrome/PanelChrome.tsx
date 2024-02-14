@@ -17,6 +17,7 @@ import { PanelDescription } from './PanelDescription';
 import { PanelMenu } from './PanelMenu';
 import { PanelStatus } from './PanelStatus';
 import { TitleItem } from './TitleItem';
+import {ToolbarButton} from "../ToolbarButton";
 
 /**
  * @internal
@@ -55,6 +56,7 @@ interface BaseProps {
    * callback when opening the panel menu
    */
   onOpenMenu?: () => void;
+  onExportButtonClick?: () => void;
 }
 
 interface FixedDimensions extends BaseProps {
@@ -117,6 +119,7 @@ export function PanelChrome({
   actions,
   onCancelQuery,
   onOpenMenu,
+  onExportButtonClick,
   collapsible = false,
   collapsed,
   onToggleCollapse,
@@ -271,6 +274,15 @@ export function PanelChrome({
           )}
 
           {headerContent}
+
+          <ToolbarButton
+            title="Export CSV"
+            icon="export"
+            iconSize="md"
+            className={cx(styles.menuItem, dragClassCancel, showOnHoverClass)}
+            narrow
+            onClick={onExportButtonClick}
+          />
 
           {menu && (
             <PanelMenu

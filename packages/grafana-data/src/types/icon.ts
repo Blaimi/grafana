@@ -90,6 +90,7 @@ export const availableIconsIndex = {
   'exchange-alt': true,
   'exclamation-triangle': true,
   'exclamation-circle': true,
+  export: true,
   'external-link-alt': true,
   eye: true,
   'eye-slash': true,

@@ -574,6 +574,7 @@ export class PanelStateWrapper extends PureComponent<Props, State> {
         displayMode={transparent ? 'transparent' : 'default'}
         onCancelQuery={panelChromeProps.onCancelQuery}
         onOpenMenu={panelChromeProps.onOpenMenu}
+        onExportButtonClick={panelChromeProps.onExportButtonClick}
       >
         {(innerWidth, innerHeight) => (
           <>
