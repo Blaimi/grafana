@@ -120,6 +120,7 @@ export function PanelChrome({
   onCancelQuery,
   onOpenMenu,
   onExportButtonClick,
+  onExportButtonNgClick,
   collapsible = false,
   collapsed,
   onToggleCollapse,

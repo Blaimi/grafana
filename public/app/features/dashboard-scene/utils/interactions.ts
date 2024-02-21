@@ -14,6 +14,7 @@ export const DashboardInteractions = {
   panelMenuItemClicked: (
     item:
       | 'exportcsv'
+      | 'exportcsvng'
       | 'view'
       | 'edit'
       | 'share'

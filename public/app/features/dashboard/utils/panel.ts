@@ -1,8 +1,9 @@
 import { isString as _isString } from 'lodash';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
+import saveAs from 'file-saver';
 
-import { TimeRange, AppEvents, rangeUtil, dateMath, PanelModel as IPanelModel, dateTimeAsMoment } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
+import { TimeRange, AppEvents, rangeUtil, dateMath, PanelModel as IPanelModel, dateTimeAsMoment, dateTimeFormat } from '@grafana/data';
+import { getTemplateSrv, getBackendSrv } from '@grafana/runtime';
 import appEvents from 'app/core/app_events';
 import config from 'app/core/config';
 import { LS_PANEL_COPY_KEY, PANEL_BORDER } from 'app/core/constants';
@@ -20,6 +21,7 @@ import {downloadDataFrameAsCsv} from "../../inspector/utils/download";
 import { CSVConfig, DataFrame, PanelData, transformDataFrame, DataTransformerID, SelectableValue } from "@grafana/data";
 import {t} from "../../../core/internationalization";
 import {GetDataOptions} from "../../query/state/PanelQueryRunner";
+import {getDatasourceSrv} from "../../plugins/datasource_srv";
 
 export const removePanel = (dashboard: DashboardModel, panel: PanelModel, ask: boolean) => {
   // confirm deletion
@@ -75,7 +77,6 @@ export const sharePanel = (dashboard: DashboardModel, panel: PanelModel) => {
 };
 
 export async function csvExportPanel(panel: PanelModel) {
-  const transformations = panel.getTransformations()
   const csvConfig: CSVConfig = {
     useExcelHeader: (config as any).DownloadForExcel || false,
     delimiter: (config as any).CsvDelimiter || ',',
@@ -88,6 +89,30 @@ export async function csvExportPanel(panel: PanelModel) {
 
   const data = await firstValueFrom(panel.getQueryRunner().getData(getDataOptions))
   downloadDataFrameAsCsv(data.series[0], panel.title, csvConfig)
+}
+
+export async function csvExportPanelNg(panel: PanelModel) {
+  const transformations = panel.getTransformations()
+  const transformation = transformations ? transformations[0].options : {}
+  const delimiter = (config as any).CsvDelimiter || ','
+  const plainQuery = panel.getQueryRunner().getLastRequest().targets[0].query
+  const scopedVars = panel.getQueryRunner().getLastRequest().scopedVars
+  const query = getTemplateSrv().replace(plainQuery, scopedVars)
+  const datasource = await getDatasourceSrv().get(panel.getQueryRunner().getLastRequest().targets[0].datasource, scopedVars);
+  const index = (datasource as any).indexPattern.pattern;
+
+  const result = await lastValueFrom(getBackendSrv().fetch({
+    responseType: 'blob',
+    url: '/exportcsv',
+    method: 'POST',
+    data: {
+      transformation,
+      delimiter,
+      query,
+      index,
+    },
+  }))
+  saveAs(result.data, `${panel.title}-data-${dateTimeFormat(new Date())}.csv`)
 }
 
 export const addLibraryPanel = (dashboard: DashboardModel, panel: PanelModel) => {

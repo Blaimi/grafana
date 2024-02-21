@@ -4,12 +4,6 @@ import {
   PluginExtensionPoints,
   urlUtil,
   type PluginExtensionPanelContext,
-  DataFrame,
-  DataTransformerID,
-  applyFieldOverrides,
-  applyRawFieldOverrides,
-  CSVConfig,
-  toCSV,
 } from '@grafana/data';
 import { AngularComponent, getPluginLinkExtensions, locationService } from '@grafana/runtime';
 import { PanelCtrl } from 'app/angular/panel/panel_ctrl';
@@ -29,6 +23,7 @@ import {
   toggleLegend,
   unlinkLibraryPanel,
   csvExportPanel,
+  csvExportPanelNg,
 } from 'app/features/dashboard/utils/panel';
 import { DashboardInteractions } from 'app/features/dashboard-scene/utils/interactions';
 import { InspectTab } from 'app/features/inspector/types';
@@ -40,8 +35,6 @@ import { store } from 'app/store/store';
 import { getCreateAlertInMenuAvailability } from '../../alerting/unified/utils/access-control';
 import { navigateToExplore } from '../../explore/state/main';
 import { getTimeSrv } from '../services/TimeSrv';
-
-import { downloadDataFrameAsCsv } from "../../inspector/utils/download";
 
 export function getPanelMenu(
   dashboard: DashboardModel,
@@ -139,12 +132,24 @@ export function getPanelMenu(
     DashboardInteractions.panelMenuItemClicked('exportcsv');
   };
 
+  const onExportCsvNg = (event: React.MouseEvent) => {
+    event.preventDefault();
+    csvExportPanelNg(panel);
+    DashboardInteractions.panelMenuItemClicked('exportcsvng');
+  };
+
   const menu: PanelMenuItem[] = [];
 
   menu.push({
     text: t('panel.header-menu.exportcsv', 'Export CSV'),
     iconClassName: 'export',
     onClick: onExportCsv,
+  });
+
+  menu.push({
+    text: t('panel.header-menu.exportcsv', 'Export CSV NG (beta)'),
+    iconClassName: 'export',
+    onClick: onExportCsvNg,
   });
 
   if (!panel.isEditing) {

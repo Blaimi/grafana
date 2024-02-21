@@ -10,7 +10,7 @@ import { isAngularDatasourcePluginAndNotHidden } from 'app/features/plugins/angu
 
 import { PanelHeaderTitleItems } from '../dashgrid/PanelHeader/PanelHeaderTitleItems';
 import { DashboardModel, PanelModel } from '../state';
-import {csvExportPanel} from "./panel";
+import {csvExportPanel, csvExportPanelNg} from "./panel";
 
 interface CommonProps {
   panel: PanelModel;
@@ -128,7 +128,11 @@ export function getPanelChromeProps(props: CommonProps) {
 
   const onExportButtonClick = () => {
     csvExportPanel(props.panel)
-  }
+  };
+
+  const onExportButtonNgClick = () => {
+    csvExportPanelNg(props.panel)
+  };
 
   return {
     hasOverlayHeader,
@@ -144,5 +148,6 @@ export function getPanelChromeProps(props: CommonProps) {
     titleItems,
     onOpenMenu,
     onExportButtonClick,
+    onExportButtonNgClick,
   };
 }

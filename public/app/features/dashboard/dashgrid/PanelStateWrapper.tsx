@@ -575,6 +575,7 @@ export class PanelStateWrapper extends PureComponent<Props, State> {
         onCancelQuery={panelChromeProps.onCancelQuery}
         onOpenMenu={panelChromeProps.onOpenMenu}
         onExportButtonClick={panelChromeProps.onExportButtonClick}
+        onExportButtonNgClick={panelChromeProps.onExportButtonNgClick}
       >
         {(innerWidth, innerHeight) => (
           <>
