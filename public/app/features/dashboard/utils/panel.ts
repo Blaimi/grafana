@@ -95,6 +95,7 @@ export async function csvExportPanelNg(panel: PanelModel) {
   const transformations = panel.getTransformations()
   const transformation = transformations ? transformations[0].options : {}
   const delimiter = (config as any).CsvDelimiter || ','
+  const url = (config as any).CsvExportNgUrl || '/csvexport'
   const plainQuery = panel.getQueryRunner().getLastRequest().targets[0].query
   const scopedVars = panel.getQueryRunner().getLastRequest().scopedVars
   const query = getTemplateSrv().replace(plainQuery, scopedVars)
@@ -103,7 +104,7 @@ export async function csvExportPanelNg(panel: PanelModel) {
 
   const result = await lastValueFrom(getBackendSrv().fetch({
     responseType: 'blob',
-    url: '/exportcsv',
+    url,
     method: 'POST',
     data: {
       transformation,

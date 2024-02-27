@@ -462,6 +462,7 @@ type Cfg struct {
 	CsvFormattedData            bool
 	DownloadForExcel            bool
 	CsvDelimiter                string
+	CsvExportNgUrl              string
 
 	// LDAP
 	LDAPAuthEnabled       bool

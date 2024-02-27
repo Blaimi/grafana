@@ -170,6 +170,7 @@ type FrontendSettingsDTO struct {
 	CsvFormattedData            bool   `json: "csvFormattedData"`
 	DownloadForExcel            bool   `json: "downloadForExcel"`
 	CsvDelimiter                string `json: "csvDelimiter"`
+	CsvExportNgUrl              string `json: "csvExportNgUrl"`
 
 	FeedbackLinksEnabled                bool     `json:"feedbackLinksEnabled"`
 	ApplicationInsightsConnectionString string   `json:"applicationInsightsConnectionString"`
