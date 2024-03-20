@@ -74,6 +74,16 @@ module.exports = {
           from: '**/*',
           to: '../lib/monaco/min/vs/language/kusto/',
         },
+        {
+          context: path.join(require.resolve('streamsaver/package.json'), '..'),
+          from: 'sw.js',
+          to: '../lib/streamsaver/sw.js',
+        },
+        {
+          context: path.join(require.resolve('streamsaver/package.json'), '..'),
+          from: 'mitm.html',
+          to: '../lib/streamsaver/mitm.html',
+        },
       ],
     }),
   ],

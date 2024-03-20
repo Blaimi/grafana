@@ -225,7 +225,7 @@ export class BackendSrv implements BackendService {
 
         const responseType = options.responseType ?? (isContentTypeApplicationJson(headers) ? 'json' : undefined);
 
-        const data = await parseResponseBody<T>(response, responseType);
+        const data = responseType == 'readablestream' ? response.body : await parseResponseBody<T>(response, responseType);
         const fetchResponse: FetchResponse<T> = {
           status,
           statusText,

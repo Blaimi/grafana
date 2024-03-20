@@ -1,6 +1,6 @@
 import { isString as _isString } from 'lodash';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
-import saveAs from 'file-saver';
+import streamsaver from 'streamsaver';
 
 import { TimeRange, AppEvents, rangeUtil, dateMath, PanelModel as IPanelModel, dateTimeAsMoment, dateTimeFormat } from '@grafana/data';
 import { getTemplateSrv, getBackendSrv } from '@grafana/runtime';
@@ -102,8 +102,8 @@ export async function csvExportPanelNg(panel: PanelModel) {
   const datasource = await getDatasourceSrv().get(panel.getQueryRunner().getLastRequest().targets[0].datasource, scopedVars);
   const index = (datasource as any).indexPattern.pattern;
 
-  const result = await lastValueFrom(getBackendSrv().fetch({
-    responseType: 'blob',
+  lastValueFrom(getBackendSrv().fetch({
+    responseType: 'readablestream',
     url,
     method: 'POST',
     data: {
@@ -112,8 +112,23 @@ export async function csvExportPanelNg(panel: PanelModel) {
       query,
       index,
     },
-  }))
-  saveAs(result.data, `${panel.title}-data-${dateTimeFormat(new Date())}.csv`)
+  })).then((result) => {
+    streamsaver.mitm = 'public/lib/streamsaver/mitm.html'
+    const fileStream = streamsaver.createWriteStream(`${panel.title}-data-${dateTimeFormat(new Date())}.csv`);
+    const writer = fileStream.getWriter();
+    if (result.data.pipeTo) {
+      writer.releaseLock();
+      return result.data.pipeTo(fileStream);
+    }
+
+    const reader = result.data.getReader();
+    const pump = () =>
+      reader
+        .read()
+        .then(({ value, done }) => (done ? writer.close() : writer.write(value).then(pump)));
+
+    return pump();
+  });
 }
 
 export const addLibraryPanel = (dashboard: DashboardModel, panel: PanelModel) => {
