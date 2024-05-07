@@ -10,7 +10,7 @@ import { isAngularDatasourcePluginAndNotHidden } from 'app/features/plugins/angu
 
 import { PanelHeaderTitleItems } from '../dashgrid/PanelHeader/PanelHeaderTitleItems';
 import { DashboardModel, PanelModel } from '../state';
-import {csvExportPanel, csvExportPanelNg} from "./panel";
+import {csvExportPanel, csvExportPanelNg, isCsvExportPanelNgApplicable} from "./panel";
 
 interface CommonProps {
   panel: PanelModel;
@@ -126,6 +126,14 @@ export function getPanelChromeProps(props: CommonProps) {
     DashboardInteractions.panelMenuShown();
   };
 
+  const onExportButtonNgIfApplicableClick = () => {
+    if (isCsvExportPanelNgApplicable(props.panel)) {
+      onExportButtonNgClick()
+    } else {
+      onExportButtonClick()
+    }
+  };
+
   const onExportButtonClick = () => {
     csvExportPanel(props.panel)
   };
@@ -149,5 +157,6 @@ export function getPanelChromeProps(props: CommonProps) {
     onOpenMenu,
     onExportButtonClick,
     onExportButtonNgClick,
+    onExportButtonNgIfApplicableClick,
   };
 }

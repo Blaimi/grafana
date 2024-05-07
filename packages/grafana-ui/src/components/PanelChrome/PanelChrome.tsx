@@ -119,8 +119,7 @@ export function PanelChrome({
   actions,
   onCancelQuery,
   onOpenMenu,
-  onExportButtonClick,
-  onExportButtonNgClick,
+  onExportButtonNgIfApplicableClick,
   collapsible = false,
   collapsed,
   onToggleCollapse,
@@ -282,7 +281,7 @@ export function PanelChrome({
             iconSize="md"
             className={cx(styles.menuItem, dragClassCancel, showOnHoverClass)}
             narrow
-            onClick={onExportButtonClick}
+            onClick={onExportButtonNgIfApplicableClick}
           />
 
           {menu && (
