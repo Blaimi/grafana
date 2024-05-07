@@ -24,6 +24,7 @@ import {
   unlinkLibraryPanel,
   csvExportPanel,
   csvExportPanelNg,
+  isCsvExportPanelNgApplicable,
 } from 'app/features/dashboard/utils/panel';
 import { DashboardInteractions } from 'app/features/dashboard-scene/utils/interactions';
 import { InspectTab } from 'app/features/inspector/types';
@@ -146,11 +147,13 @@ export function getPanelMenu(
     onClick: onExportCsv,
   });
 
-  menu.push({
-    text: t('panel.header-menu.exportcsv', 'Export CSV NG (beta)'),
-    iconClassName: 'export',
-    onClick: onExportCsvNg,
-  });
+  if (isCsvExportPanelNgApplicable(panel)) {
+    menu.push({
+      text: t('panel.header-menu.exportcsv', 'Export CSV NG (beta)'),
+      iconClassName: 'export',
+      onClick: onExportCsvNg,
+    });
+  }
 
   if (!panel.isEditing) {
     menu.push({

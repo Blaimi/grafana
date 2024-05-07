@@ -91,6 +91,19 @@ export async function csvExportPanel(panel: PanelModel) {
   downloadDataFrameAsCsv(data.series[0], panel.title, csvConfig)
 }
 
+export const isCsvExportPanelNgApplicable = (panel: PanelModel) => {
+  if (panel.targets.length != 1) {
+    return false
+  }
+  if (panel.targets[0].metrics.length != 1) {
+    return false
+  }
+  if (panel.targets[0].metrics[0].type != 'raw_data') {
+    return false
+  }
+  return true
+}
+
 export async function csvExportPanelNg(panel: PanelModel) {
   const transformations = panel.getTransformations()
   const transformation = transformations ? transformations[0].options : {}
