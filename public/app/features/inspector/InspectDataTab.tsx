@@ -54,6 +54,7 @@ interface State {
 export class InspectDataTab extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
+    console.log(config as any)
 
     this.state = {
       selectedDataFrame: 0,
@@ -62,7 +63,7 @@ export class InspectDataTab extends PureComponent<Props, State> {
       transformationOptions: buildTransformationOptions(),
       transformedData: props.data ?? [],
       downloadForExcel: (config as any).DownloadForExcel || false,
-      delimiter: (config as any).CsvDelimiter || ',',
+      delimiter: (config as any).bootData.user.csvDelimiter || (config as any).CsvDelimiter || ',',
     };
     this.handleDelimiterChange = this.handleDelimiterChange.bind(this);
   }

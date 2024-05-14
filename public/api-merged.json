@@ -16958,6 +16958,10 @@
         "weekStart": {
           "description": "WeekStart day of the week (sunday, monday, etc)",
           "type": "string"
+        },
+        "csvDelimiter": {
+          "description": "Default CSV Export Delimiter",
+          "type": "string"
         }
       }
     },

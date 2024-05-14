@@ -15,6 +15,7 @@ type UpdatePrefsCmd struct {
 	// Enum: utc,browser
 	Timezone     string                       `json:"timezone"`
 	WeekStart    string                       `json:"weekStart"`
+	CsvDelimiter string                       `json:"csvDelimiter"`
 	QueryHistory *pref.QueryHistoryPreference `json:"queryHistory,omitempty"`
 	Language     string                       `json:"language"`
 	Cookies      []pref.CookieType            `json:"cookies,omitempty"`
@@ -30,6 +31,7 @@ type PatchPrefsCmd struct {
 	// Enum: utc,browser
 	Timezone         *string                      `json:"timezone,omitempty"`
 	WeekStart        *string                      `json:"weekStart,omitempty"`
+	CsvDelimiter     *string                      `json:"csvDelimiter,omitempty"`
 	Language         *string                      `json:"language,omitempty"`
 	QueryHistory     *pref.QueryHistoryPreference `json:"queryHistory,omitempty"`
 	HomeDashboardUID *string                      `json:"homeDashboardUID,omitempty"`

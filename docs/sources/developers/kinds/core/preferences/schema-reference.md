@@ -81,6 +81,7 @@ swagger:model Preferences
 | `theme`             | string                                            | No       |         | light, dark, empty is default                                                   |
 | `timezone`          | string                                            | No       |         | The timezone selection<br/>TODO: this should use the timezone defined in common |
 | `weekStart`         | string                                            | No       |         | day of the week (sunday, monday, etc)                                           |
+| `csvDelimiter`      | string                                            | No       |         | Default CSV Export Delimiter                                                    |
 
 ### CookiePreferences
 
@@ -140,5 +141,3 @@ details contains any extra information that is operator-specific
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-
-

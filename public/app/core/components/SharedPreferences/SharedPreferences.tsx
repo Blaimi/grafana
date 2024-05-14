@@ -63,6 +63,7 @@ export class SharedPreferences extends PureComponent<Props, State> {
       weekStart: '',
       language: '',
       queryHistory: { homeTab: '' },
+      csvDelimiter: '',
     };
 
     this.themeOptions = getBuiltInThemes(config.featureToggles.extraThemes).map((theme) => ({
@@ -83,6 +84,7 @@ export class SharedPreferences extends PureComponent<Props, State> {
       timezone: prefs.timezone,
       weekStart: prefs.weekStart,
       language: prefs.language,
+      csvDelimiter: prefs.csvDelimiter,
       queryHistory: prefs.queryHistory,
     });
   }
@@ -91,8 +93,8 @@ export class SharedPreferences extends PureComponent<Props, State> {
     const confirmationResult = this.props.onConfirm ? await this.props.onConfirm() : true;
 
     if (confirmationResult) {
-      const { homeDashboardUID, theme, timezone, weekStart, language, queryHistory } = this.state;
-      await this.service.update({ homeDashboardUID, theme, timezone, weekStart, language, queryHistory });
+      const { homeDashboardUID, theme, timezone, weekStart, language, csvDelimiter, queryHistory } = this.state;
+      await this.service.update({ homeDashboardUID, theme, timezone, weekStart, language, csvDelimiter, queryHistory });
       window.location.reload();
     }
   };
@@ -120,6 +122,10 @@ export class SharedPreferences extends PureComponent<Props, State> {
     this.setState({ homeDashboardUID: dashboardUID });
   };
 
+  onCsvDelimiterChanged = (csvDelimiter: string) => {
+    this.setState({ csvDelimiter: csvDelimiter });
+  }
+
   onLanguageChanged = (language: string) => {
     this.setState({ language });
 
@@ -130,12 +136,15 @@ export class SharedPreferences extends PureComponent<Props, State> {
   };
 
   render() {
-    const { theme, timezone, weekStart, homeDashboardUID, language } = this.state;
+    const { theme, timezone, weekStart, homeDashboardUID, language, csvDelimiter } = this.state;
     const { disabled } = this.props;
     const styles = getStyles();
     const languages = getLanguageOptions();
     const currentThemeOption = this.themeOptions.find((x) => x.value === theme) ?? this.themeOptions[0];
-
+    const delimiterOptions = [
+      { label: ';', value: ';' },
+      { label: ',', value: ',' },
+    ]
     return (
       <Form onSubmit={this.onSubmitForm}>
         {() => {
@@ -212,6 +221,19 @@ export class SharedPreferences extends PureComponent<Props, State> {
                     placeholder={t('shared-preferences.fields.locale-placeholder', 'Choose language')}
                     inputId="locale-select"
                   />
+                </Field>
+
+                <Field label="Choose a CSV delimeter" description="Lets you to choose a default delimeter for CSV export files">
+                  <Select
+                    options={delimiterOptions}
+                    value={csvDelimiter}
+                    placeholder={t('shared-preferences.fields.csvdelimiter-placeholder', 'inherit global setting')}
+                    onChange={(e) => {
+                      this.onCsvDelimiterChanged(e?.value ?? '');
+                    }}
+                    isClearable={true}
+                    defaultOptions={true}
+                  ></Select>
                 </Field>
               </FieldSet>
               <Button

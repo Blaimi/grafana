@@ -43,6 +43,7 @@ type CurrentUser struct {
 	GravatarUrl                string             `json:"gravatarUrl"`
 	Timezone                   string             `json:"timezone"`
 	WeekStart                  string             `json:"weekStart"`
+	CsvDelimiter               string             `json:"csvDelimiter"`
 	Locale                     string             `json:"locale"`
 	Language                   string             `json:"language"`
 	HelpFlags1                 user.HelpFlags1    `json:"helpFlags1"`

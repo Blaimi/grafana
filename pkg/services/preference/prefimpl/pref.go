@@ -29,6 +29,7 @@ func prefsFromConfig(cfg *setting.Cfg) pref.Preference {
 		Theme:           cfg.DefaultTheme,
 		Timezone:        cfg.DateFormats.DefaultTimezone,
 		WeekStart:       &cfg.DateFormats.DefaultWeekStart,
+		CsvDelimiter:    &cfg.CsvDelimiter,
 		HomeDashboardID: 0,
 		JSONData: &pref.PreferenceJSONData{
 			Language: cfg.DefaultLanguage,
@@ -58,6 +59,9 @@ func (s *Service) GetWithDefaults(ctx context.Context, query *pref.GetPreference
 		}
 		if p.WeekStart != nil && *p.WeekStart != "" {
 			res.WeekStart = p.WeekStart
+		}
+		if p.CsvDelimiter != nil && *p.CsvDelimiter != "" {
+			res.CsvDelimiter = p.CsvDelimiter
 		}
 		if p.HomeDashboardID != 0 {
 			res.HomeDashboardID = p.HomeDashboardID
@@ -116,6 +120,7 @@ func (s *Service) Save(ctx context.Context, cmd *pref.SavePreferenceCommand) err
 				HomeDashboardID: cmd.HomeDashboardID,
 				Timezone:        cmd.Timezone,
 				WeekStart:       &cmd.WeekStart,
+				CsvDelimiter:    &cmd.CsvDelimiter,
 				Theme:           cmd.Theme,
 				Created:         time.Now(),
 				Updated:         time.Now(),
@@ -131,6 +136,7 @@ func (s *Service) Save(ctx context.Context, cmd *pref.SavePreferenceCommand) err
 
 	preference.Timezone = cmd.Timezone
 	preference.WeekStart = &cmd.WeekStart
+	preference.CsvDelimiter = &cmd.CsvDelimiter
 	preference.Theme = cmd.Theme
 	preference.Updated = time.Now()
 	preference.Version += 1
@@ -203,6 +209,10 @@ func (s *Service) Patch(ctx context.Context, cmd *pref.PatchPreferenceCommand) e
 		preference.WeekStart = cmd.WeekStart
 	}
 
+	if cmd.CsvDelimiter != nil {
+		preference.CsvDelimiter = cmd.CsvDelimiter
+	}
+
 	if cmd.Theme != nil {
 		preference.Theme = *cmd.Theme
 	}
@@ -223,6 +233,7 @@ func (s *Service) GetDefaults() *pref.Preference {
 		Theme:           s.defaults.Theme,
 		Timezone:        s.defaults.Timezone,
 		WeekStart:       s.defaults.WeekStart,
+		CsvDelimiter:    s.defaults.CsvDelimiter,
 		HomeDashboardID: 0,
 		JSONData: &pref.PreferenceJSONData{
 			Language: s.defaults.JSONData.Language,

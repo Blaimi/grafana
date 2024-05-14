@@ -48,6 +48,9 @@ func addPreferencesMigrations(mg *Migrator) {
 	mg.AddMigration("Add column week_start in preferences", NewAddColumnMigration(preferencesV2, &Column{
 		Name: "week_start", Type: DB_NVarchar, Length: 10, Nullable: true,
 	}))
+	mg.AddMigration("Add column csv_delimiter in preferences", NewAddColumnMigration(preferencesV2, &Column{
+		Name: "csv_delimiter", Type: DB_NVarchar, Length: 2, Nullable: true,
+	}))
 
 	mg.AddMigration("Add column preferences.json_data", NewAddColumnMigration(preferencesV2, &Column{
 		Name: "json_data", Type: DB_Text, Nullable: true,

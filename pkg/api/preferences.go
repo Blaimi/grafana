@@ -151,6 +151,7 @@ func (hs *HTTPServer) patchPreferencesFor(ctx context.Context, orgID, userID, te
 		Theme:             dtoCmd.Theme,
 		Timezone:          dtoCmd.Timezone,
 		WeekStart:         dtoCmd.WeekStart,
+		CsvDelimiter:      dtoCmd.CsvDelimiter,
 		HomeDashboardID:   dtoCmd.HomeDashboardID,
 		Language:          dtoCmd.Language,
 		QueryHistory:      dtoCmd.QueryHistory,

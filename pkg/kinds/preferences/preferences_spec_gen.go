@@ -43,4 +43,7 @@ type Spec struct {
 
 	// WeekStart day of the week (sunday, monday, etc)
 	WeekStart *string `json:"weekStart,omitempty"`
+
+	// Default CSV Export Delimiter
+	CsvDelimiter *string `json:"csvDelimiter,omitempty"`
 }

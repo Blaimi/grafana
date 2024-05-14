@@ -55,4 +55,8 @@ export interface Preferences {
    * day of the week (sunday, monday, etc)
    */
   weekStart?: string;
+  /**
+   * default CSV Export Delimiter
+   */
+  csvDelimiter?: string;
 }

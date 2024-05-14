@@ -79,7 +79,7 @@ export const sharePanel = (dashboard: DashboardModel, panel: PanelModel) => {
 export async function csvExportPanel(panel: PanelModel) {
   const csvConfig: CSVConfig = {
     useExcelHeader: (config as any).DownloadForExcel || false,
-    delimiter: (config as any).CsvDelimiter || ',',
+    delimiter: (config as any).bootData.user.csvDelimiter || (config as any).CsvDelimiter || ',',
   };
 
   const getDataOptions: GetDataOptions = {
@@ -107,7 +107,7 @@ export const isCsvExportPanelNgApplicable = (panel: PanelModel) => {
 export async function csvExportPanelNg(panel: PanelModel) {
   const transformations = panel.getTransformations()
   const transformation = transformations ? transformations[0].options : {}
-  const delimiter = (config as any).CsvDelimiter || ','
+  const delimiter = (config as any).bootData.user.csvDelimiter || (config as any).CsvDelimiter || ','
   const url = (config as any).CsvExportNgUrl || '/csvexport'
   const plainQuery = panel.getQueryRunner().getLastRequest().targets[0].query
   const scopedVars = panel.getQueryRunner().getLastRequest().scopedVars

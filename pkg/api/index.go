@@ -80,6 +80,10 @@ func (hs *HTTPServer) setIndexViewData(c *contextmodel.ReqContext) (*dtos.IndexV
 	if prefs.WeekStart != nil {
 		weekStart = *prefs.WeekStart
 	}
+	csvDelimiter := ""
+	if prefs.CsvDelimiter != nil {
+		csvDelimiter = *prefs.CsvDelimiter
+	}
 
 	theme := hs.getThemeForIndexData(prefs.Theme, c.Query("theme"))
 	assets, err := webassets.GetWebAssets(hs.Cfg)
@@ -121,6 +125,7 @@ func (hs *HTTPServer) setIndexViewData(c *contextmodel.ReqContext) (*dtos.IndexV
 			LightTheme:                 theme.Type == "light",
 			Timezone:                   prefs.Timezone,
 			WeekStart:                  weekStart,
+			CsvDelimiter:               csvDelimiter,
 			Locale:                     locale,
 			Language:                   language,
 			HelpFlags1:                 c.HelpFlags1,

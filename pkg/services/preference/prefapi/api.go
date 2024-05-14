@@ -43,6 +43,7 @@ func UpdatePreferencesFor(ctx context.Context,
 		Language:          dtoCmd.Language,
 		Timezone:          dtoCmd.Timezone,
 		WeekStart:         dtoCmd.WeekStart,
+		CsvDelimiter:      dtoCmd.CsvDelimiter,
 		HomeDashboardID:   dtoCmd.HomeDashboardID,
 		QueryHistory:      dtoCmd.QueryHistory,
 		CookiePreferences: dtoCmd.Cookies,
@@ -89,6 +90,9 @@ func GetPreferencesFor(ctx context.Context,
 	}
 	if preference.Timezone != "" {
 		dto.Timezone = &preference.Timezone
+	}
+	if preference.CsvDelimiter != nil && *preference.CsvDelimiter != "" {
+		dto.CsvDelimiter = preference.CsvDelimiter
 	}
 
 	if preference.JSONData != nil {

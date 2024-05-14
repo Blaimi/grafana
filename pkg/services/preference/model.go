@@ -27,6 +27,7 @@ type Preference struct {
 	HomeDashboardID int64               `xorm:"home_dashboard_id" db:"home_dashboard_id"`
 	Timezone        string              `db:"timezone"`
 	WeekStart       *string             `db:"week_start"`
+	CsvDelimiter    *string             `db:"csv_delimiter"`
 	Theme           string              `db:"theme"`
 	Created         time.Time           `db:"created"`
 	Updated         time.Time           `db:"updated"`
@@ -63,6 +64,7 @@ type SavePreferenceCommand struct {
 	HomeDashboardUID  *string                 `json:"homeDashboardUID,omitempty"`
 	Timezone          string                  `json:"timezone,omitempty"`
 	WeekStart         string                  `json:"weekStart,omitempty"`
+	CsvDelimiter      string                  `json:"csvDelimiter,omitempty"`
 	Theme             string                  `json:"theme,omitempty"`
 	Language          string                  `json:"language,omitempty"`
 	QueryHistory      *QueryHistoryPreference `json:"queryHistory,omitempty"`
@@ -78,6 +80,7 @@ type PatchPreferenceCommand struct {
 	HomeDashboardUID  *string                 `json:"homeDashboardUID,omitempty"`
 	Timezone          *string                 `json:"timezone,omitempty"`
 	WeekStart         *string                 `json:"weekStart,omitempty"`
+	CsvDelimiter      *string                 `json:"csvDelimiter,omitempty"`
 	Theme             *string                 `json:"theme,omitempty"`
 	Language          *string                 `json:"language,omitempty"`
 	QueryHistory      *QueryHistoryPreference `json:"queryHistory,omitempty"`
