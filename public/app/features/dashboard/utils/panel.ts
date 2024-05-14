@@ -95,7 +95,7 @@ export const isCsvExportPanelNgApplicable = (panel: PanelModel) => {
   if (panel.targets.length != 1) {
     return false
   }
-  if (panel.targets[0].metrics.length != 1) {
+  if (!panel.targets[0].metrics || panel.targets[0].metrics.length != 1) {
     return false
   }
   if (panel.targets[0].metrics[0].type != 'raw_data') {
