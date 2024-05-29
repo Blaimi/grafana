@@ -1,4 +1,4 @@
-import { isString as _isString } from 'lodash';
+import { cloneDeep as _cloneDeep, isString as _isString } from 'lodash';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import streamsaver from 'streamsaver';
 
@@ -22,6 +22,7 @@ import { CSVConfig, DataFrame, PanelData, transformDataFrame, DataTransformerID,
 import {t} from "../../../core/internationalization";
 import {GetDataOptions} from "../../query/state/PanelQueryRunner";
 import {getDatasourceSrv} from "../../plugins/datasource_srv";
+import {ExpressionQuery} from "../../expressions/types";
 
 export const removePanel = (dashboard: DashboardModel, panel: PanelModel, ask: boolean) => {
   // confirm deletion
@@ -109,10 +110,13 @@ export async function csvExportPanelNg(panel: PanelModel) {
   const transformation = transformations ? transformations[0].options : {}
   const delimiter = (config as any).bootData.user.csvDelimiter || (config as any).CsvDelimiter || ','
   const url = (config as any).CsvExportNgUrl || '/csvexport'
-  const plainQuery = panel.getQueryRunner().getLastRequest().targets[0].query
-  const scopedVars = panel.getQueryRunner().getLastRequest().scopedVars
-  const query = getTemplateSrv().replace(plainQuery, scopedVars)
-  const datasource = await getDatasourceSrv().get(panel.getQueryRunner().getLastRequest().targets[0].datasource, scopedVars);
+  const lastRequest = panel.getQueryRunner().getLastRequest();
+  const targets = _cloneDeep(lastRequest.targets)
+  const scopedVars = lastRequest.scopedVars
+  const filters = lastRequest.filters
+  const datasource = await getDatasourceSrv().get(targets[0].datasource, scopedVars);
+  const osQueriesReplaced = datasource.interpolateVariablesInQueries(targets, scopedVars)
+  const query = datasource.addAdHocFilters(osQueriesReplaced[0], filters)
   const index = (datasource as any).indexPattern.pattern;
 
   lastValueFrom(getBackendSrv().fetch({
