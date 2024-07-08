@@ -85,13 +85,13 @@ export const DashNav = React.memo<Props>((props) => {
 
   const originalUrl = props.dashboard.snapshot?.originalUrl ?? '';
   const gotoSnapshotOrigin = () => {
-    window.location.href = textUtil.sanitizeUrl(props.dashboard.snapshot.originalUrl);
+    window.location.href = (new URL(textUtil.sanitizeUrl(props.dashboard.snapshot.originalUrl.substring(1)), config.appUrl)).href;
   };
 
   const notifyApp = useAppNotification();
   const onOpenSnapshotOriginal = () => {
     try {
-      const sanitizedUrl = new URL(textUtil.sanitizeUrl(originalUrl), config.appUrl);
+      const sanitizedUrl = new URL(textUtil.sanitizeUrl(originalUrl.substring(1)), config.appUrl);
       const appUrl = new URL(config.appUrl);
       if (sanitizedUrl.host !== appUrl.host) {
         appEvents.publish(
